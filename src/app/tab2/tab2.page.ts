@@ -1,6 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { BehaviorSubject, Subscription, interval } from 'rxjs';
 import { TimerService } from '../timer.service';
+import { AlertController } from '@ionic/angular';
+
+const circleRadius = 80;
+const circleDasharray = 2 * Math.PI * circleRadius;
 
 @Component({
   selector: 'app-tab2',
@@ -8,17 +12,34 @@ import { TimerService } from '../timer.service';
   styleUrls: ['tab2.page.scss']
 })
 export class Tab2Page implements OnInit {
+  percent: BehaviorSubject<number> = new BehaviorSubject(100);
 
   started: boolean = false;
   timerSubscription: Subscription | undefined;
   timer: number = 0;
+  circleRadius = circleRadius;
+  circleDasharray = circleDasharray;
+  totalTime: number = 0;
+  circleColor: string = '#000000'
 
-  constructor(private timerService: TimerService) {}
+  constructor(private timerService: TimerService, private alertController: AlertController) {}
 
   ngOnInit() {
     this.timerService.getTimer().subscribe((time) => {
       this.timer = time;
+      this.totalTime = time;
+      this.percent.next(0);
     });
+  }
+
+  async presentAlert() {
+    const alert = await this.alertController.create({
+      header: 'Timer completed',
+      message: 'Press ok to continue',
+      buttons: ['Ok'],
+    });
+
+    await alert.present();
   }
 
   startTimer()  {
@@ -27,9 +48,13 @@ export class Tab2Page implements OnInit {
       this.started = true;
       this.timerSubscription = interval(1000).subscribe(() => {
         this.timer--;
+        const percentage = ((this.totalTime - this.timer) / this.totalTime) * 100;
+        this.percent.next(percentage);
         if (this.timer == 0) {
           this.timerSubscription?.unsubscribe();
           this.started = false;
+          this.presentAlert();
+          return
         }
       });
     }
@@ -50,5 +75,10 @@ export class Tab2Page implements OnInit {
     const formattedSeconds: string = String(remSeconds).padStart(2, '0');
 
     return `${formattedHours}:${formattedMinutes}:${formattedSeconds}`;
+  }
+
+  percentageOffset(percent: any) {
+    const percentFloat = percent / 100;
+    return circleDasharray * (1 - percentFloat)
   }
 }

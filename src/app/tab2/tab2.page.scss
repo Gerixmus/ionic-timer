@@ -1,11 +1,11 @@
-.timer {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 200px;
-    font-size: 3rem;
-  }
-  
-  .timer h1 {
-    margin: 0;
-  }
+#progress-circle{
+  rotate: -90deg;
+}
+
+.timer-time{
+  font-size: 32px;
+  text-anchor: middle;
+  font-weight: 500;
+  transform-origin: 50% 50%;
+  transform: rotate(90deg);
+}
