@@ -5,13 +5,13 @@ import { BehaviorSubject, Observable } from 'rxjs';
   providedIn: 'root'
 })
 export class TimerService {
-  private timerSubject = new BehaviorSubject<string>("00:00");
+  private timerSubject = new BehaviorSubject<number>(0);
 
-  setTimer(seconds: string) {
+  setTimer(seconds: number) {
     this.timerSubject.next(seconds);
   }
 
-  getTimer(): Observable<string> {
+  getTimer(): Observable<number> {
     return this.timerSubject.asObservable();
   }
 

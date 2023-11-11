@@ -7,9 +7,7 @@ import { TimerService } from '../timer.service';
   styleUrls: ['tab1.page.scss']
 })
 export class Tab1Page {
-  selectedTime: string = "00:00";
-
-  pickedTime: string = "00:00:00"
+  selectedTime: string = "00:00:00"
 
   public pickerColumns = [
     {
@@ -53,7 +51,7 @@ export class Tab1Page {
       text: 'Confirm',
       handler: (value: { hours: { text: any, value: any; }; minutes: { text: any, value: any; }; seconds: { text: any, value: any; }; }) => {
         console.log(`${value.hours.text} ${value.minutes.text} ${value.seconds.text}`);
-        this.pickedTime = value.hours.text + ":" + value.minutes.text + ":" + value.seconds.text
+        this.selectedTime = value.hours.text + ":" + value.minutes.text + ":" + value.seconds.text
       },
     },
   ];
@@ -61,12 +59,8 @@ export class Tab1Page {
   constructor(private timerService: TimerService) {}
 
   submitTime() {
-    console.log("Selected Time:", this.selectedTime);
-    // const [hours, minutes] = this.selectedTime.split(':').map(Number);
-    // const seconds = hours * 3600 + minutes * 60;
-
-    this.timerService.setTimer(this.selectedTime);
-
-    
+    const [hours, minutes, seconds] = this.selectedTime.split(':').map(Number);
+    const totalSeconds = hours * 3600 + minutes * 60 + seconds;
+    this.timerService.setTimer(totalSeconds);
   }
 }

@@ -16,8 +16,7 @@ export class Tab2Page implements OnInit {
 
   ngOnInit() {
     this.timerService.getTimer().subscribe((time) => {
-      const [minutes, seconds] = time.split(':').map(Number);
-      this.timer = minutes * 60 + seconds;
+      this.timer = time;
     });
   }
 
@@ -38,12 +37,14 @@ export class Tab2Page implements OnInit {
   }
 
   formatTime(seconds: number): string {
-    const remMinutes: number = Math.floor(seconds / 60);
+    const remHours: number = Math.floor(seconds / 3600);
+    const remMinutes: number = Math.floor(seconds % 3600 / 60);
     const remSeconds: number = seconds % 60;
 
+    const formattedHours: string = String(remHours).padStart(2, '0');
     const formattedMinutes: string = String(remMinutes).padStart(2, '0');
     const formattedSeconds: string = String(remSeconds).padStart(2, '0');
 
-    return `${formattedMinutes}:${formattedSeconds}`;
+    return `${formattedHours}:${formattedMinutes}:${formattedSeconds}`;
   }
 }
