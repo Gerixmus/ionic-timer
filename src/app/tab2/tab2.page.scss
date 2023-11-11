@@ -9,3 +9,11 @@
   transform-origin: 50% 50%;
   transform: rotate(90deg);
 }
+
+.timer-content{
+  height: 100%;
+  max-width: 768px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
