@@ -13,10 +13,14 @@
     </ion-toolbar>
   </ion-header>
 
-  <ion-content class="ion-padding">
-    <p>{{ selectedTime }}</p>
-    <ion-button id="open-picker">Open</ion-button>
+  <ion-content class="ion-padding"> 
+    <ion-row class="ion-justify-content-center">
+      <h1 id="open-picker">{{ selectedTime }}</h1>
+    </ion-row> 
+    <ion-row class="ion-justify-content-center">
+      <ion-toggle [(ngModel)]="soundEnabled">Sound when time has elapsed:</ion-toggle>
+    </ion-row> 
     <ion-button expand="full" (click)="submitTime()">Submit</ion-button>
-    <ion-picker trigger="open-picker" [columns]="pickerColumns" [buttons]="pickerButtons"></ion-picker>
   </ion-content>
+  <ion-picker trigger="open-picker" [columns]="pickerColumns" [buttons]="pickerButtons"></ion-picker>
 </ion-content>

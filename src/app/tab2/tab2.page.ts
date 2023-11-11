@@ -9,6 +9,7 @@ import { TimerService } from '../timer.service';
 })
 export class Tab2Page implements OnInit {
 
+  started: boolean = false;
   timerSubscription: Subscription | undefined;
   timer: number = 0;
 
@@ -21,18 +22,21 @@ export class Tab2Page implements OnInit {
   }
 
   startTimer()  {
-    this.timerSubscription?.unsubscribe();
-
-    this.timerSubscription = interval(1000).subscribe(() => {
-      this.timer--;
-      if (this.timer <= 0) {
-        this.timerSubscription?.unsubscribe();
-        this.timer = 0;
-      }
-    });
+    if (this.timer > 0) {
+      this.timerSubscription?.unsubscribe();
+      this.started = true;
+      this.timerSubscription = interval(1000).subscribe(() => {
+        this.timer--;
+        if (this.timer == 0) {
+          this.timerSubscription?.unsubscribe();
+          this.started = false;
+        }
+      });
+    }
   }
 
   stopTimer() {
+    this.started = false;
     this.timerSubscription?.unsubscribe();
   }
 

@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { TimerService } from '../timer.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-tab1',
@@ -8,6 +9,9 @@ import { TimerService } from '../timer.service';
 })
 export class Tab1Page {
   selectedTime: string = "00:00:00"
+  soundEnabled: boolean = false;
+
+  constructor(private timerService: TimerService, private router: Router) {}
 
   public pickerColumns = [
     {
@@ -50,17 +54,18 @@ export class Tab1Page {
     {
       text: 'Confirm',
       handler: (value: { hours: { text: any, value: any; }; minutes: { text: any, value: any; }; seconds: { text: any, value: any; }; }) => {
-        console.log(`${value.hours.text} ${value.minutes.text} ${value.seconds.text}`);
+        console.log(`${value.hours.text}:${value.minutes.text}:${value.seconds.text}`);
         this.selectedTime = value.hours.text + ":" + value.minutes.text + ":" + value.seconds.text
       },
     },
   ];
 
-  constructor(private timerService: TimerService) {}
-
   submitTime() {
     const [hours, minutes, seconds] = this.selectedTime.split(':').map(Number);
     const totalSeconds = hours * 3600 + minutes * 60 + seconds;
-    this.timerService.setTimer(totalSeconds);
+    if (totalSeconds > 0) {
+      this.timerService.setTimer(totalSeconds);
+      this.router.navigateByUrl('/tabs/tab2');
+    }
   }
 }

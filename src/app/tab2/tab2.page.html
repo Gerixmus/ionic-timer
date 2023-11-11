@@ -14,8 +14,10 @@
   </ion-header>
 
   <ion-content class="ion-padding">
-    <h1>{{ formatTime(timer) }}</h1>
-    <ion-button color="primary" (click)="startTimer()">Start</ion-button>
-    <ion-button color="primary" (click)="stopTimer()">Stop</ion-button>
+    <ion-row class="ion-justify-content-center">
+      <h1>{{ formatTime(timer) }}</h1>
+    </ion-row>
+    <ion-button expand="full" (click)="startTimer()" *ngIf="!started">Start</ion-button>
+    <ion-button expand="full" (click)="stopTimer()" *ngIf="started">Stop</ion-button>
   </ion-content>
 </ion-content>
