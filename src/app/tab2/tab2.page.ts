@@ -30,6 +30,10 @@ export class Tab2Page implements OnInit {
       this.totalTime = time;
       this.percent.next(0);
     });
+    this.timerService.getColor().subscribe((color) => {
+      console.log(color);
+      this.circleColor = color;
+    });
   }
 
   async presentAlert() {

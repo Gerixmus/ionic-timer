@@ -14,20 +14,24 @@
   </ion-header>
 
   <ion-content color="light">
-    <ion-list [inset]="true">
+    <ion-list class="settings-list" [inset]="true">
       <ion-item>
         <ion-input label="Time" id="open-picker" value="{{ selectedTime }}"></ion-input>
       </ion-item>
-      <ion-item>
-        <ion-input label="Last Name"></ion-input>
+      <ion-item class="color-input">
+        <input class="color" [(colorPicker)]="color" [style.background]="color"/>
+      </ion-item>
+      <ion-item class="background-color-input">
+        <input class="color" [(colorPicker)]="baackgroundColor" [style.background]="baackgroundColor"/>
       </ion-item>
       <ion-item>
         <ion-toggle  [(ngModel)]="soundEnabled">
           <ion-label>Sound when time has elapsed:</ion-label>
           <!-- <ion-note color="medium">Unsubscribe at any time</ion-note> -->
         </ion-toggle>
-      </ion-item>
+      </ion-item>    
     </ion-list>
+
   
     <!-- <ion-list [inset]="true">
       <ion-item>
@@ -39,7 +43,7 @@
       Your comments will be kept anonymous and will only be used to improve the reliability of our products.</ion-note
     > -->
 
-    <ion-button class="ion-padding-horizontal" expand="full" (click)="submitTime()">Submit</ion-button>
+    <ion-button class="ion-padding-horizontal submit-button" expand="full" (click)="submitTime()">Submit</ion-button>
 
   </ion-content>
   <ion-picker trigger="open-picker" [columns]="pickerColumns" [buttons]="pickerButtons"></ion-picker>

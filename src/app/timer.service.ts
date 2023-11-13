@@ -6,6 +6,7 @@ import { BehaviorSubject, Observable } from 'rxjs';
 })
 export class TimerService {
   private timerSubject = new BehaviorSubject<number>(0);
+  private colorSubject = new BehaviorSubject<string>('');
 
   setTimer(seconds: number) {
     this.timerSubject.next(seconds);
@@ -13,6 +14,14 @@ export class TimerService {
 
   getTimer(): Observable<number> {
     return this.timerSubject.asObservable();
+  }
+
+  setColor(color: string) {
+    this.colorSubject.next(color);
+  }
+
+  getColor(): Observable<string> {
+    return this.colorSubject.asObservable();
   }
 
   constructor() { }

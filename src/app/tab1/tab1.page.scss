@@ -1,0 +1,18 @@
+.open{
+    z-index: 100;
+    overflow: visible;
+}
+.item, .settings-list{
+    contain:none;
+    overflow: visible;
+}
+.color-input{
+    z-index: 1000;
+}
+.background-color-input{
+    z-index: 999;
+}
+.submit-button{
+    position: relative;
+    z-index: -1;
+}
