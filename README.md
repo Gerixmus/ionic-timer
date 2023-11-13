@@ -4,8 +4,9 @@ This project is a simple timer app.
 
 ## To do list 📋
 
-- [ ] Create color selection.
-- [ ] Create circle displaying time.
+- [x] Create color selection.
+- [x] Create circle displaying time.
+- [ ] Improve visuals.
 - [ ] Let off sound after finish.
 
 ## Issues
