@@ -5,23 +5,14 @@ import { BehaviorSubject, Observable } from 'rxjs';
   providedIn: 'root'
 })
 export class TimerService {
-  private timerSubject = new BehaviorSubject<number>(0);
-  private colorSubject = new BehaviorSubject<string>('');
+  private settingsSubject = new BehaviorSubject<{ timer: number; color: string; backgroundColor: string; sound: boolean;}>({ timer: 0, color: '#000000', backgroundColor: '#f3f3f3', sound: false });
 
-  setTimer(seconds: number) {
-    this.timerSubject.next(seconds);
+  setSettings(settings: { timer: number; color: string; backgroundColor: string; sound: boolean; }) {
+    this.settingsSubject.next(settings);
   }
 
-  getTimer(): Observable<number> {
-    return this.timerSubject.asObservable();
-  }
-
-  setColor(color: string) {
-    this.colorSubject.next(color);
-  }
-
-  getColor(): Observable<string> {
-    return this.colorSubject.asObservable();
+  getSettings(): Observable<{ timer: number; color: string; backgroundColor: string; sound: boolean; }> {
+    return this.settingsSubject.asObservable();
   }
 
   constructor() { }

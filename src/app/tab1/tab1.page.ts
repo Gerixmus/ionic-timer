@@ -66,8 +66,7 @@ export class Tab1Page {
     const [hours, minutes, seconds] = this.selectedTime.split(':').map(Number);
     const totalSeconds = hours * 3600 + minutes * 60 + seconds;
     if (totalSeconds > 0) {
-      this.timerService.setTimer(totalSeconds);
-      this.timerService.setColor(this.color);
+      this.timerService.setSettings({timer: totalSeconds, color: this.color, backgroundColor: this.baackgroundColor, sound: this.soundEnabled})
       this.router.navigateByUrl('/tabs/tab2');
     }
   }

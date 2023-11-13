@@ -20,26 +20,26 @@ export class Tab2Page implements OnInit {
   circleRadius = circleRadius;
   circleDasharray = circleDasharray;
   totalTime: number = 0;
-  circleColor: string = '#000000'
+  circleColor!: string;
+  backgroundColor!: string;
 
   constructor(private timerService: TimerService, private alertController: AlertController) {}
 
   ngOnInit() {
-    this.timerService.getTimer().subscribe((time) => {
-      this.timer = time;
-      this.totalTime = time;
+    this.timerService.getSettings().subscribe((settings) => {
+      this.timer = settings.timer;
+      this.totalTime = settings.timer;
+      this.circleColor = settings.color;
+      this.backgroundColor = settings.backgroundColor;
+      console.log(settings.sound);
       this.percent.next(0);
-    });
-    this.timerService.getColor().subscribe((color) => {
-      console.log(color);
-      this.circleColor = color;
-    });
+    })
   }
 
   async presentAlert() {
     const alert = await this.alertController.create({
       header: 'Timer completed',
-      message: 'Press ok to continue',
+      // message: 'Press ok to continue',
       buttons: ['Ok'],
     });
 
