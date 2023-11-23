@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { BehaviorSubject, Subscription, interval } from 'rxjs';
 import { TimerService } from '../timer.service';
 import { AlertController } from '@ionic/angular';
+import { LocalNotifications } from '@capacitor/local-notifications';
 
 const circleRadius = 80;
 const circleDasharray = 2 * Math.PI * circleRadius;
@@ -58,6 +59,15 @@ export class Tab2Page implements OnInit {
           this.timerSubscription?.unsubscribe();
           this.started = false;
           this.presentAlert();
+          LocalNotifications.schedule({
+            notifications: [
+              {
+                title: 'My Notification',
+                body: 'This is a local notification',
+                id: 1
+              }
+            ]
+          });
           return
         }
       });

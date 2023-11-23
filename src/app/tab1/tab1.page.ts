@@ -10,7 +10,7 @@ import { Router } from '@angular/router';
 export class Tab1Page {
   selectedTime: string = "00:00:00"
   soundEnabled: boolean = false;
-  baackgroundColor: any;
+  backgroundColor: any;
   color: any;
 
   constructor(private timerService: TimerService, private router: Router) {}
@@ -66,7 +66,7 @@ export class Tab1Page {
     const [hours, minutes, seconds] = this.selectedTime.split(':').map(Number);
     const totalSeconds = hours * 3600 + minutes * 60 + seconds;
     if (totalSeconds > 0) {
-      this.timerService.setSettings({timer: totalSeconds, color: this.color, backgroundColor: this.baackgroundColor, sound: this.soundEnabled})
+      this.timerService.setSettings({timer: totalSeconds, color: this.color, backgroundColor: this.backgroundColor, sound: this.soundEnabled})
       this.router.navigateByUrl('/tabs/tab2');
     }
   }

@@ -19,29 +19,17 @@
         <ion-input label="Time" id="open-picker" value="{{ selectedTime }}"></ion-input>
       </ion-item>
       <ion-item class="color-input">
-        <input class="color" [(colorPicker)]="color" [style.background]="color"/>
+        <input [(colorPicker)]="color" [style.background]="color"/>
       </ion-item>
       <ion-item class="background-color-input">
-        <input class="color" [(colorPicker)]="baackgroundColor" [style.background]="baackgroundColor"/>
+        <input [(colorPicker)]="backgroundColor" [style.background]="backgroundColor"/>
       </ion-item>
       <ion-item>
         <ion-toggle  [(ngModel)]="soundEnabled">
           <ion-label>Sound when time has elapsed:</ion-label>
-          <!-- <ion-note color="medium">Unsubscribe at any time</ion-note> -->
         </ion-toggle>
       </ion-item>    
     </ion-list>
-
-  
-    <!-- <ion-list [inset]="true">
-      <ion-item>
-        <ion-textarea label="Comments" labelPlacement="floating" rows="5"></ion-textarea>
-      </ion-item>
-    </ion-list>
-  
-    <ion-note color="medium" class="ion-margin-horizontal">
-      Your comments will be kept anonymous and will only be used to improve the reliability of our products.</ion-note
-    > -->
 
     <ion-button class="ion-padding-horizontal submit-button" expand="full" (click)="submitTime()">Submit</ion-button>
 
