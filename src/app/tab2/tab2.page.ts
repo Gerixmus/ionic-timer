@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { BehaviorSubject, Subscription, interval } from 'rxjs';
 import { TimerService } from '../timer.service';
 import { AlertController } from '@ionic/angular';
@@ -12,11 +12,13 @@ const circleDasharray = 2 * Math.PI * circleRadius;
   templateUrl: 'tab2.page.html',
   styleUrls: ['tab2.page.scss']
 })
-export class Tab2Page implements OnInit {
+export class Tab2Page implements OnInit, OnDestroy {
   percent: BehaviorSubject<number> = new BehaviorSubject(100);
 
   started: boolean = false;
   timerSubscription: Subscription | undefined;
+  settingsSubscription: Subscription | undefined;
+  startedSubscription: Subscription | undefined;
   timer: number = 0;
   circleRadius = circleRadius;
   circleDasharray = circleDasharray;
@@ -27,13 +29,19 @@ export class Tab2Page implements OnInit {
   constructor(private timerService: TimerService, private alertController: AlertController) {}
 
   ngOnInit() {
-    this.timerService.getSettings().subscribe((settings) => {
+    this.settingsSubscription = this.timerService.getSettings().subscribe((settings) => {
       this.timer = settings.timer;
       this.totalTime = settings.timer;
       this.circleColor = settings.color;
       this.backgroundColor = settings.backgroundColor;
       console.log(settings.sound);
       this.percent.next(0);
+    })
+    this.startedSubscription = this.timerService.getStarted().subscribe((value) => {
+      this.started = value;
+      if (value == false) {
+        this.timerSubscription?.unsubscribe();
+      } 
     })
   }
 
@@ -49,15 +57,13 @@ export class Tab2Page implements OnInit {
 
   startTimer()  {
     if (this.timer > 0) {
-      this.timerSubscription?.unsubscribe();
-      this.started = true;
+      this.timerService.setStarted(true);
       this.timerSubscription = interval(1000).subscribe(() => {
         this.timer--;
         const percentage = ((this.totalTime - this.timer) / this.totalTime) * 100;
         this.percent.next(percentage);
         if (this.timer == 0) {
-          this.timerSubscription?.unsubscribe();
-          this.started = false;
+          this.stopTimer();
           this.presentAlert();
           LocalNotifications.schedule({
             notifications: [
@@ -75,7 +81,7 @@ export class Tab2Page implements OnInit {
   }
 
   stopTimer() {
-    this.started = false;
+    this.timerService.setStarted(false);
     this.timerSubscription?.unsubscribe();
   }
 
@@ -94,5 +100,14 @@ export class Tab2Page implements OnInit {
   percentageOffset(percent: any) {
     const percentFloat = percent / 100;
     return circleDasharray * (1 - percentFloat)
+  }
+
+  ngOnDestroy() {
+    if (this.timerSubscription) {
+      this.timerSubscription.unsubscribe();
+    }
+    if (this.settingsSubscription) {
+      this.settingsSubscription.unsubscribe();
+    }
   }
 }
