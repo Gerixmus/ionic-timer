@@ -8,6 +8,7 @@ This project is a simple timer app.
 - [x] Create circle displaying time.
 - [ ] Improve visuals.
 - [ ] Let off sound after finish.
+- [ ] Ask for permission to send notifications.
 
 ## Issues
 

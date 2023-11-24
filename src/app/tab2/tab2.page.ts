@@ -25,6 +25,7 @@ export class Tab2Page implements OnInit, OnDestroy {
   totalTime: number = 0;
   circleColor!: string;
   backgroundColor!: string;
+  sound: boolean = false;
 
   constructor(private timerService: TimerService, private alertController: AlertController) {}
 
@@ -34,7 +35,7 @@ export class Tab2Page implements OnInit, OnDestroy {
       this.totalTime = settings.timer;
       this.circleColor = settings.color;
       this.backgroundColor = settings.backgroundColor;
-      console.log(settings.sound);
+      this.sound = settings.sound;
       this.percent.next(0);
     })
     this.startedSubscription = this.timerService.getStarted().subscribe((value) => {
@@ -45,7 +46,18 @@ export class Tab2Page implements OnInit, OnDestroy {
     })
   }
 
-  async presentAlert() {
+  async presentAlert(sound: boolean) {
+    if (sound) {
+      LocalNotifications.schedule({
+        notifications: [
+          {
+            title: 'Timer completed',
+            body: 'Go back to application to check the result',
+            id: 1
+          }
+        ]
+      });
+    }
     const alert = await this.alertController.create({
       header: 'Timer completed',
       // message: 'Press ok to continue',
@@ -64,16 +76,7 @@ export class Tab2Page implements OnInit, OnDestroy {
         this.percent.next(percentage);
         if (this.timer == 0) {
           this.stopTimer();
-          this.presentAlert();
-          LocalNotifications.schedule({
-            notifications: [
-              {
-                title: 'My Notification',
-                body: 'This is a local notification',
-                id: 1
-              }
-            ]
-          });
+          this.presentAlert(this.sound);
           return
         }
       });
@@ -108,6 +111,9 @@ export class Tab2Page implements OnInit, OnDestroy {
     }
     if (this.settingsSubscription) {
       this.settingsSubscription.unsubscribe();
+    }
+    if (this.startedSubscription) {
+      this.startedSubscription.unsubscribe();
     }
   }
 }
